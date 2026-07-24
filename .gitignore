@@ -1,0 +1,37 @@
+/vbs/tools/*
+PowerPlanSwitcher.exe
+PowerPlanSwitcher.exe
+
+# Build output and local tool caches
+bin/
+obj/
+.build-msi/
+.build-smoke/
+.dotnet/
+.dotnet6/
+.msi-extract-check/
+.tools/
+.tools-diagnostics/
+.tools-wix5/
+.research/
+dist/
+publish/
+
+# Local binaries and shortcuts
+*.exe
+*.msi
+*.wixpdb
+*.pdb
+*.lnk
+
+# Legacy upstream project and local planning documents
+/PowerPlanSwitcher.ahk
+/ListView.ahk
+/osd.ahk
+/README_cn.md
+/setting.ini
+/icons/
+/vbs/
+/PowerPlanMonitor/
+/项目开发.md
+/修改*.md

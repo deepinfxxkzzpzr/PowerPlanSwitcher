@@ -1,0 +1,290 @@
+<Window x:Class="PowerPlanMonitor.App.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="PowerPlanMonitor 设置" Width="780" Height="700" MinWidth="700" MinHeight="580"
+        WindowStartupLocation="CenterScreen" Background="#0F141B" Icon="/PowerPlanMonitor;component/Assets/AppIcon.ico">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#E5E7EB"/>
+            <Setter Property="FontFamily" Value="Microsoft YaHei UI"/>
+        </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="Foreground" Value="#E5E7EB"/>
+            <Setter Property="Margin" Value="0,8,0,8"/>
+            <Setter Property="FontFamily" Value="Microsoft YaHei UI"/>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Height" Value="34"/>
+            <Setter Property="Margin" Value="0,6,0,14"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Height" Value="34"/>
+            <Setter Property="Margin" Value="0,6,0,14"/>
+            <Setter Property="Padding" Value="8,4"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="MinWidth" Value="96"/>
+            <Setter Property="Margin" Value="8,0,0,0"/>
+            <Setter Property="Padding" Value="16,0"/>
+            <Setter Property="FontFamily" Value="Microsoft YaHei UI"/>
+        </Style>
+        <Style TargetType="TabControl">
+            <Setter Property="Background" Value="#121922"/>
+            <Setter Property="BorderBrush" Value="#243244"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabControl">
+                        <Border CornerRadius="18"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Border Margin="14,14,14,0"
+                                        CornerRadius="13"
+                                        Background="#0B1118"
+                                        BorderBrush="#1F2A38"
+                                        BorderThickness="1"
+                                        Padding="4">
+                                    <TabPanel x:Name="HeaderPanel"
+                                              IsItemsHost="True"
+                                              KeyboardNavigation.TabIndex="1"/>
+                                </Border>
+                                <Border Grid.Row="1"
+                                        Margin="0,10,0,0"
+                                        BorderBrush="#1F2A38"
+                                        BorderThickness="0,1,0,0">
+                                    <ContentPresenter x:Name="PART_SelectedContentHost"
+                                                      ContentSource="SelectedContent"
+                                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="TabItem">
+            <Setter Property="Foreground" Value="#94A3B8"/>
+            <Setter Property="FontFamily" Value="Microsoft YaHei UI"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="MinHeight" Value="34"/>
+            <Setter Property="MinWidth" Value="94"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Padding" Value="16,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border x:Name="TabChrome"
+                                CornerRadius="10"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="1"
+                                MinHeight="{TemplateBinding MinHeight}"
+                                MinWidth="{TemplateBinding MinWidth}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter ContentSource="Header"
+                                              RecognizesAccessKey="True"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="TabChrome" Property="Background" Value="#172231"/>
+                                <Setter Property="Foreground" Value="#DDE7F2"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="TabChrome" Property="Background" Value="#203144"/>
+                                <Setter TargetName="TabChrome" Property="BorderBrush" Value="#355EEAD4"/>
+                                <Setter Property="Foreground" Value="#F8FAFC"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="LayerModeRadioStyle" TargetType="RadioButton">
+            <Setter Property="Foreground" Value="#94A3B8"/>
+            <Setter Property="FontFamily" Value="Microsoft YaHei UI"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="Chrome"
+                                CornerRadius="10"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="1"
+                                Padding="16,0">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Chrome" Property="Background" Value="#172231"/>
+                                <Setter Property="Foreground" Value="#DDE7F2"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Chrome" Property="Background" Value="#203144"/>
+                                <Setter TargetName="Chrome" Property="BorderBrush" Value="#355EEAD4"/>
+                                <Setter Property="Foreground" Value="#F8FAFC"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="22">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <TextBlock Text="PowerPlanMonitor" FontSize="28" FontWeight="SemiBold" Foreground="#F8FAFC"/>
+            <TextBlock Text="电源切换、性能浮窗和启动行为" FontSize="13" Foreground="#94A3B8" Margin="0,6,0,0"/>
+        </StackPanel>
+
+        <TabControl Grid.Row="1" Margin="0,24,0,20">
+            <TabItem Header="电源模式">
+                <Grid Margin="24">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="0,0,24,0">
+                        <CheckBox x:Name="AutoSwitchToggle" Content="插电/拔电时自动切换"/>
+                        <TextBlock Text="插电时使用" Foreground="#94A3B8"/>
+                        <ComboBox x:Name="AcCombo"/>
+                        <TextBlock Text="拔电时使用" Foreground="#94A3B8"/>
+                        <ComboBox x:Name="DcCombo"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="快捷键循环三模式" FontSize="16" FontWeight="SemiBold"/>
+                        <TextBlock Text="模式 1" Foreground="#94A3B8" Margin="0,14,0,0"/>
+                        <ComboBox x:Name="Mode1Combo"/>
+                        <TextBlock Text="模式 2" Foreground="#94A3B8"/>
+                        <ComboBox x:Name="Mode2Combo"/>
+                        <TextBlock Text="模式 3" Foreground="#94A3B8"/>
+                        <ComboBox x:Name="Mode3Combo"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="浮窗">
+                <StackPanel Margin="24">
+                    <CheckBox x:Name="FloatingToggle" Content="显示性能浮窗"/>
+                    <CheckBox x:Name="AutoDockToggle" Content="拖到屏幕边缘时自动贴边"/>
+                    <TextBlock Text="浮窗层级" Foreground="#94A3B8" Margin="0,14,0,8"/>
+                    <Border Width="220"
+                            HorizontalAlignment="Left"
+                            CornerRadius="13"
+                            Background="#0B1118"
+                            BorderBrush="#1F2A38"
+                            BorderThickness="1"
+                            Padding="4">
+                        <UniformGrid Columns="2">
+                            <RadioButton x:Name="TopLayerRadio"
+                                         GroupName="FloatingLayerMode"
+                                         Content="顶层"
+                                         Style="{StaticResource LayerModeRadioStyle}"/>
+                            <RadioButton x:Name="BottomLayerRadio"
+                                         GroupName="FloatingLayerMode"
+                                         Content="底层"
+                                         Style="{StaticResource LayerModeRadioStyle}"/>
+                        </UniformGrid>
+                    </Border>
+                    <TextBlock Text="浮窗透明度" Foreground="#94A3B8" Margin="0,14,0,8"/>
+                    <Slider x:Name="OpacitySlider" Minimum="0.72" Maximum="1" Value="0.94" TickFrequency="0.02"/>
+                    <Grid Margin="0,18,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="浮窗缩放" Foreground="#94A3B8"/>
+                        <TextBlock x:Name="ScaleValueText" Grid.Column="1" Text="100%" Foreground="#A7F3D0" FontWeight="SemiBold"/>
+                    </Grid>
+                    <Slider x:Name="ScaleSlider" Minimum="0.6" Maximum="1.4" Value="1" TickFrequency="0.05"/>
+                    <Grid Margin="0,18,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="监控刷新间隔（时钟不受影响）" Foreground="#94A3B8"/>
+                        <TextBlock x:Name="MonitorIntervalValueText" Grid.Column="1" Text="1.0 秒" Foreground="#A7F3D0" FontWeight="SemiBold"/>
+                    </Grid>
+                    <Slider x:Name="MonitorIntervalSlider" Minimum="0.5" Maximum="5" Value="1" TickFrequency="0.5" IsSnapToTickEnabled="True"/>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="快捷键">
+                <StackPanel Margin="24">
+                    <CheckBox x:Name="HotkeyToggle" Content="启用快捷键循环切换"/>
+                    <WrapPanel Margin="0,12,0,0">
+                        <CheckBox x:Name="CtrlToggle" Content="Ctrl" Margin="0,0,18,0"/>
+                        <CheckBox x:Name="AltToggle" Content="Alt" Margin="0,0,18,0"/>
+                        <CheckBox x:Name="ShiftToggle" Content="Shift" Margin="0,0,18,0"/>
+                        <CheckBox x:Name="WinToggle" Content="Win" Margin="0,0,18,0"/>
+                    </WrapPanel>
+                    <TextBlock Text="按键，例如 P、F5、F8" Foreground="#94A3B8" Margin="0,18,0,0"/>
+                    <TextBox x:Name="HotkeyKeyBox" Width="160" HorizontalAlignment="Left"/>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="时间">
+                <StackPanel Margin="24">
+                    <CheckBox x:Name="TaskbarClockToggle" Content="在任务栏显示第二时区时间"/>
+                    <TextBlock Text="显示时区" Foreground="#94A3B8" Margin="0,14,0,0"/>
+                    <ComboBox x:Name="TimeZoneCombo"
+                              Width="420"
+                              HorizontalAlignment="Left"
+                              DisplayMemberPath="DisplayName"
+                              SelectedValuePath="Id"/>
+                    <TextBlock Text="时钟以两行显示时间和日期，并停靠在 Windows 系统托盘左侧。"
+                               Foreground="#64748B"
+                               TextWrapping="Wrap"/>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="启动">
+                <StackPanel Margin="24">
+                    <CheckBox x:Name="AutoStartToggle" Content="Windows 登录后自动启动"/>
+                    <Border CornerRadius="18" Background="#18212C" BorderBrush="#334155" BorderThickness="1" Padding="18" Margin="0,28,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <TextBlock Text="硬件温度驱动" FontSize="16" FontWeight="SemiBold"/>
+                                <TextBlock x:Name="PawnIoStatusText" Text="硬件识别内核驱动，用于访问硬件传感器。" Foreground="#94A3B8" Margin="0,8,0,0" TextWrapping="Wrap"/>
+                                <TextBlock Text="CPU 温度需要内核驱动读取 MSR；驱动只负责硬件访问，不需要常驻打开第三方监控软件。" Foreground="#64748B" Margin="0,8,18,0" TextWrapping="Wrap"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                <Button x:Name="InstallPawnIoButton" Content="安装/修复驱动" Background="#0F766E" Foreground="White"/>
+                                <Button x:Name="UninstallPawnIoButton" Content="卸载驱动" Background="#7F1D1D" Foreground="White"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="SaveButton" Content="保存设置" Background="#2563EB" Foreground="White"/>
+            <Button x:Name="CloseButton" Content="关闭"/>
+        </StackPanel>
+    </Grid>
+</Window>
