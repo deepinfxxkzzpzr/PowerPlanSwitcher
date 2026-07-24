@@ -26,6 +26,9 @@ PowerPlanMonitor 是一个专为 **Windows 笔记本电脑** 设计的轻量工�
 - 显示实时网络上传与下载速度。
 - 悬浮窗支持缩放、透明度、置顶、自动贴边和隐藏，适合长期放在桌面边缘。
 
+> [!IMPORTANT]
+> 如果 CPU **频率**显示为 `--GHz`，或**温度**显示为 `--°C`，请打开软件的“设置”页面，在硬件温度驱动区域点击“安装/修复驱动”，安装 [**PawnIO**](https://github.com/namazso/PawnIO)。安装驱动需要管理员权限；安装成功后 PowerPlanMonitor 会自动刷新并重新识别硬件数据。
+
 ![PowerPlanMonitor 悬浮仪表盘](docs/screenshots/dashboard.png)
 
 ### 3. 右下角时钟
@@ -60,14 +63,26 @@ PowerPlanMonitor 是一个专为 **Windows 笔记本电脑** 设计的轻量工�
 
 在 [Releases](https://github.com/deepinfxxkzzpzr/PowerPlanMonitor/releases) 页面下载最新的 MSI 安装包。当前版本为 [`v1.0.24`](https://github.com/deepinfxxkzzpzr/PowerPlanMonitor/releases/tag/v1.0.24)。
 
-安装包会把程序安装到 `C:\Program Files\PowerPlanMonitor`，并注册 Windows 登录计划任务。CPU 温度驱动属于可选功能，需要时可从托盘菜单或设置窗口安装。
+安装包会把程序安装到 `C:\Program Files\PowerPlanMonitor`，并注册 Windows 登录计划任务。[**PawnIO**](https://github.com/namazso/PawnIO) 硬件访问驱动属于可选功能；当 CPU 频率或温度无法识别时，可以从托盘菜单或设置窗口执行“安装/修复温度驱动”。
+
+## 频率或温度无法识别
+
+如果悬浮窗中的 CPU 频率显示为 `--GHz`，或者 CPU 温度显示为 `--°C`，请按以下步骤处理：
+
+1. 打开 PowerPlanMonitor 的“设置”窗口。
+2. 进入“启动”选项卡，找到“硬件温度驱动”。
+3. 点击“安装/修复驱动”。
+4. 在系统提示时允许管理员权限，完成 [**PawnIO**](https://github.com/namazso/PawnIO) 安装。
+5. 安装成功后，程序会自动刷新性能监控数据。
+
+PawnIO 提供读取底层硬件信息所需的访问能力。即使已经安装驱动，个别处理器或主板仍可能因为硬件传感器兼容性而无法提供温度，此时界面会继续安全地显示 `--°C`，不影响电源切换、内存监控、网速监控和右下角时钟功能。
 
 ## 系统要求
 
 - Windows 10 1809 或更高版本
 - 64 位 Windows（`win-x64`）
-- 切换电源计划和安装硬件温度驱动时需要相应的系统权限
-- CPU 温度是否可读取取决于处理器、主板和驱动支持；不可用时界面显示 `--°C`
+- 切换电源计划和安装 [**PawnIO**](https://github.com/namazso/PawnIO) 驱动时需要相应的系统权限
+- CPU 频率和温度是否可读取取决于处理器、主板和驱动支持；不可用时界面显示 `--GHz` 或 `--°C`
 
 ## 从源码构建
 
@@ -89,7 +104,7 @@ dotnet publish PowerPlanMonitorApp/PowerPlanMonitor.App/PowerPlanMonitor.App.csp
 
 安装包使用 WiX Toolset 5 构建，定义文件位于 `PowerPlanMonitorApp/Installer/Product.wxs`。
 
-`PawnIO_Setup.exe` 是可选的第三方发布依赖，不提交到源码仓库。需要在发布包中提供驱动安装功能时，请自行取得受信任版本，并放入 `PowerPlanMonitorApp/ThirdParty/` 后再执行发布。
+`PawnIO_Setup.exe` 是可选的第三方发布依赖，不提交到源码仓库。需要在发布包中提供驱动安装功能时，请从 [**PawnIO**](https://github.com/namazso/PawnIO) 的可信发布来源取得安装程序，并放入 `PowerPlanMonitorApp/ThirdParty/` 后再执行发布。
 
 ## 项目结构
 
@@ -106,7 +121,7 @@ PowerPlanMonitorApp/
 ## 第三方组件
 
 - [LibreHardwareMonitor](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor)：硬件传感器读取
-- [PawnIO](https://github.com/namazso/PawnIO)：可选的底层硬件访问驱动
+- [**PawnIO**](https://github.com/namazso/PawnIO)：频率或温度无法识别时，可从软件设置中安装的底层硬件访问驱动
 - [System.Management](https://www.nuget.org/packages/System.Management)：Windows 管理信息访问
 
 ## 许可证
