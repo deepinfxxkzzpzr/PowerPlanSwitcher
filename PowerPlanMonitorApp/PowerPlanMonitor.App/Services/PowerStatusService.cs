@@ -67,25 +67,78 @@ public sealed class PowerStatusService : IDisposable
             return IntPtr.Zero;
         }
 
-        var eventCode = wParam.ToInt32();
-        if (eventCode == PbtPowerSettingChange && lParam != IntPtr.Zero)
+        try
         {
-            var setting = Marshal.PtrToStructure<PowerBroadcastSetting>(lParam);
-            if (setting.PowerSetting == AcDcPowerSource && setting.DataLength >= sizeof(int))
+            var eventCode = wParam.ToInt32();
+            if (eventCode == PbtPowerSettingChange && TryReadPowerSource(lParam, out var pluggedIn))
             {
-                var value = Marshal.ReadInt32(lParam, Marshal.OffsetOf<PowerBroadcastSetting>(nameof(PowerBroadcastSetting.Data)).ToInt32());
-                if (value is 0 or 1)
-                {
-                    PowerSourceChanged?.Invoke(this, value == 0);
-                }
+                NotifyPowerSourceChanged(pluggedIn);
+            }
+            else if (eventCode == PbtApmResumeAutomatic)
+            {
+                NotifySystemResumed();
             }
         }
-        else if (eventCode == PbtApmResumeAutomatic)
+        catch
         {
-            SystemResumed?.Invoke(this, EventArgs.Empty);
+            // A system-message callback must never let an event handler terminate the tray process.
         }
 
         return IntPtr.Zero;
+    }
+
+    private static bool TryReadPowerSource(IntPtr lParam, out bool pluggedIn)
+    {
+        pluggedIn = false;
+        if (lParam == IntPtr.Zero)
+        {
+            return false;
+        }
+
+        var setting = Marshal.PtrToStructure<PowerBroadcastSettingHeader>(lParam);
+        if (setting.PowerSetting != AcDcPowerSource || setting.DataLength < sizeof(int))
+        {
+            return false;
+        }
+
+        var value = Marshal.ReadInt32(lParam, Marshal.SizeOf<PowerBroadcastSettingHeader>());
+        if (value is not (0 or 1))
+        {
+            return false;
+        }
+
+        pluggedIn = value == 0;
+        return true;
+    }
+
+    private void NotifyPowerSourceChanged(bool pluggedIn)
+    {
+        foreach (EventHandler<bool> handler in PowerSourceChanged?.GetInvocationList() ?? [])
+        {
+            try
+            {
+                handler(this, pluggedIn);
+            }
+            catch
+            {
+                // One subscriber cannot be allowed to end system event delivery for the tray process.
+            }
+        }
+    }
+
+    private void NotifySystemResumed()
+    {
+        foreach (EventHandler handler in SystemResumed?.GetInvocationList() ?? [])
+        {
+            try
+            {
+                handler(this, EventArgs.Empty);
+            }
+            catch
+            {
+                // One subscriber cannot be allowed to end system event delivery for the tray process.
+            }
+        }
     }
 
     [DllImport("kernel32.dll")]
@@ -112,10 +165,9 @@ public sealed class PowerStatusService : IDisposable
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    private struct PowerBroadcastSetting
+    private struct PowerBroadcastSettingHeader
     {
         public Guid PowerSetting;
         public uint DataLength;
-        public byte Data;
     }
 }
