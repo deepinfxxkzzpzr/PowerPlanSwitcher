@@ -3,7 +3,7 @@
   <!-- UpgradeCode 沿用历史安装包（dist 中 1.0.11 版），不可更改，否则老用户无法原地升级 -->
   <Package Name="PowerPlanMonitor"
            Manufacturer="PowerPlanMonitor"
-           Version="1.0.25"
+           Version="1.0.26"
            Language="2052"
            Codepage="65001"
            UpgradeCode="E12EC334-3EB9-4F8E-9B3A-574FB7BB7E0B"
@@ -24,11 +24,6 @@
             <!-- 非广告式快捷方式直接指向 exe，才能显示 UAC 盾牌图标 -->
             <Shortcut Id="StartMenuShortcut"
                       Directory="ProgramMenuFolder"
-                      Name="PowerPlanMonitor"
-                      WorkingDirectory="INSTALLFOLDER"
-                      Advertise="no" />
-            <Shortcut Id="DesktopShortcut"
-                      Directory="DesktopFolder"
                       Name="PowerPlanMonitor"
                       WorkingDirectory="INSTALLFOLDER"
                       Advertise="no" />

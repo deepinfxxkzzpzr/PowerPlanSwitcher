@@ -61,7 +61,7 @@ PowerPlanMonitor 是一个专为 **Windows 笔记本电脑** 设计的轻量工�
 
 ## 下载与安装
 
-在 [Releases](https://github.com/deepinfxxkzzpzr/PowerPlanMonitor/releases) 页面下载最新的 MSI 安装包。当前版本为 [`v1.0.25`](https://github.com/deepinfxxkzzpzr/PowerPlanMonitor/releases/tag/v1.0.25)。
+在 [Releases](https://github.com/deepinfxxkzzpzr/PowerPlanMonitor/releases) 页面下载最新的 MSI 安装包。当前版本为 [`v1.0.26`](https://github.com/deepinfxxkzzpzr/PowerPlanMonitor/releases/tag/v1.0.26)。
 
 安装包会把程序安装到 `C:\Program Files\PowerPlanMonitor`，并注册 Windows 登录计划任务。[**PawnIO**](https://github.com/namazso/PawnIO) 硬件访问驱动属于可选功能；当 CPU 频率或温度无法识别时，可以从托盘菜单或设置窗口执行“安装/修复温度驱动”。
 
